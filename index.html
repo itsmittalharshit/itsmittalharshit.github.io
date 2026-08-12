@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harshit Mittal — AI Engineer &amp; Data Science</title>
+<meta name="description" content="Harshit Mittal — AI engineer and data scientist. MSc Advanced Computer Science, University of Leeds. Deep learning, computer vision and medical imaging.">
+<meta name="author" content="Harshit Mittal">
+
+<!-- Social preview -->
+<meta property="og:title" content="Harshit Mittal — AI Engineer &amp; Data Science">
+<meta property="og:description" content="Deep learning, computer vision and medical imaging. MSc Advanced Computer Science, University of Leeds.">
+<meta property="og:type" content="profile">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B6FA4'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' fill='white' text-anchor='middle'%3EHM%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="topbar-name" href="#top">Harshit Mittal</a>
+    <nav class="topbar-nav" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <!-- Intro -->
+  <section id="top" class="intro" aria-labelledby="intro-name">
+    <div class="intro-head">
+      <img id="avatar" class="avatar" alt="" width="96" height="96" hidden>
+      <div>
+        <h1 id="intro-name"></h1>
+        <p id="intro-role" class="intro-role"></p>
+        <p id="intro-location" class="intro-location"></p>
+      </div>
+    </div>
+    <p id="intro-tagline" class="intro-tagline"></p>
+    <div id="intro-actions" class="intro-actions"></div>
+    <ul id="link-list" class="links" aria-label="Profiles and contact"></ul>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section" aria-labelledby="about-title">
+    <p class="eyebrow">About</p>
+    <h2 id="about-title">A little context</h2>
+    <div id="about-body" class="prose"></div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="section" aria-labelledby="skills-title">
+    <p class="eyebrow">Skills</p>
+    <h2 id="skills-title">What I work with</h2>
+    <h3 class="subhead">Focus areas</h3>
+    <ul id="focus-tags" class="tags"></ul>
+    <h3 class="subhead">Languages, counted from my public repositories</h3>
+    <ul id="lang-tags" class="tags">
+      <li class="tag tag-quiet" data-placeholder>Loading from GitHub…</li>
+    </ul>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section" aria-labelledby="projects-title">
+    <p class="eyebrow">Projects</p>
+    <h2 id="projects-title">Straight from GitHub</h2>
+    <p class="section-note">This list is read from my GitHub profile when the page loads, so it stays current on its own.</p>
+    <div id="projects-list" class="cards" aria-live="polite">
+      <p class="state">Loading repositories…</p>
+    </div>
+    <p id="projects-more" class="more" hidden></p>
+  </section>
+
+  <!-- Posts -->
+  <section id="posts" class="section" aria-labelledby="posts-title">
+    <p class="eyebrow">Writing</p>
+    <h2 id="posts-title">Posts &amp; videos</h2>
+    <div id="posts-list" class="cards"></div>
+  </section>
+
+  <!-- Publications (hidden while empty) -->
+  <section id="publications" class="section" aria-labelledby="publications-title" hidden>
+    <p class="eyebrow">Research</p>
+    <h2 id="publications-title">Publications</h2>
+    <div id="publications-list" class="cards"></div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="section" aria-labelledby="experience-title">
+    <p class="eyebrow">Experience</p>
+    <h2 id="experience-title">Where I've worked</h2>
+    <ol id="experience-list" class="timeline"></ol>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="section" aria-labelledby="education-title">
+    <p class="eyebrow">Education</p>
+    <h2 id="education-title">Where I've studied</h2>
+    <ol id="education-list" class="timeline"></ol>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section contact" aria-labelledby="contact-title">
+    <p class="eyebrow">Contact</p>
+    <h2 id="contact-title">Say hello</h2>
+    <p class="prose"><span id="contact-line"></span></p>
+    <ul id="contact-links" class="links" aria-label="Profiles and contact"></ul>
+  </section>
+
+  <noscript>
+    <p class="state">This page builds its content with JavaScript. Turn JavaScript on, or reach me at
+      <a href="mailto:mittalharshit99@gmail.com">mittalharshit99@gmail.com</a>.</p>
+  </noscript>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p id="footer-name"></p>
+    <p id="footer-note"></p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
