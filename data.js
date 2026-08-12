@@ -7,16 +7,15 @@
 const DATA = {
   /* ---------- 1. WHO YOU ARE ---------- */
   name: "Harshit Mittal",
-  role: "AI Engineer · Data Science",
-  location: "Leeds, United Kingdom",
+  role: "AI Engineer | Data Science",
   tagline:
-    "MSc Advanced Computer Science at the University of Leeds, working on deep learning for medical imaging.",
+    "Working on Deep Learning, Computer Vision and Transformers.",
 
   // Short intro. Each string is its own paragraph. Write like you speak.
   about: [
-    "I build machine learning systems and care most about the part where they meet real users — clinicians looking at a scan, a shopkeeper closing the day's books, a team that needs a model to run on a phone with no signal.",
+    "I build machine learning systems and care most about the part where they meet real users: clinicians looking at a scan, a person controlling their diet or students preparing for HR Interview.",
     "My master's thesis, SAFViT, is a hierarchical encoder–decoder architecture for cell segmentation that improves detection of minority dead-cell classes on the PanNuke dataset. Before Leeds, I worked on medical AI research and a 3D facial recognition pipeline at DRDO.",
-    "Right now I'm looking for AI engineering and data science roles in the UK and India."
+    "Right now I'm looking for AI engineering and data science roles."
   ],
 
   // Optional. Leave as "" to hide the résumé button.
@@ -132,5 +131,5 @@ const DATA = {
   },
 
   /* ---------- 9. FOOTER ---------- */
-  footerNote: "Built as a static site — plain HTML, CSS and JavaScript."
+  //footerNote: "Built as a static site — plain HTML, CSS and JavaScript."
 };
