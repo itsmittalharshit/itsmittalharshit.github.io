@@ -1,92 +1,127 @@
-# Harshit Mittal — Portfolio Website
+# Personal Portfolio Site
 
-Personal portfolio for **Harshit Mittal**, MSc Advanced Computer Science student at the University of Leeds. Built as a single-file static site — no framework, no build step, no dependencies.
+A personal portfolio site built with plain HTML, CSS, and JavaScript —
+no frameworks, no build step. Designed to look like a professional
+"dossier" / ID-badge personnel file: warm paper background, folder-tab
+navigation, and a resume-style layout.
 
-🌐 **Live:** [itsmittalharshit.github.io](https://itsmittalharshit.github.io)
-
----
-
-## Sections
-
-| Section | Content |
-|---|---|
-| **Hero** | Name, tagline, thesis stats card, social links |
-| **About** | Bio, badges, links to LinkedIn / GitHub / Resume |
-| **Education** | MSc at University of Leeds, thesis details |
-| **Experience** | USIC&T (AI Research Intern), CFEES DRDO (Project Trainee) |
-| **Projects** | AdaptAttend & ShopHandBook (featured, hardcoded) |
-| **Research** | SAPNeXt thesis, ORCID profile, benchmark metrics |
-| **Skills** | Languages, AI/ML, Mobile, Backend, Data, Concepts |
-| **Contact** | Contact info + mailto form (no backend needed) |
-
----
-
-## Features
-
-- **Zero dependencies** — pure HTML, CSS, and vanilla JS
-- **Dark mode** — orbital orb toggle with full-page ripple transition + particle burst; auto-detects system preference and persists via `localStorage`
-- **Scroll animations** — `IntersectionObserver`-based fade-up reveals
-- **Progress bar** — gradient reading indicator fixed at top
-- **Contact form** — opens pre-filled `mailto:` link; visitor fills form, one click sends
-- **Resume download** — `HMResume.pdf` served directly
-- **ORCID** — linked in Research section (`0000-0002-4960-4660`)
-- **Fully responsive** — mobile hamburger menu, stacked layouts on small screens
-
----
-
-## File Structure
+## Structure
 
 ```
-Portfolio Website/
-├── index.html      # Entire site — HTML + CSS + JS in one file
-├── HMResume.pdf    # Resume (linked for download)
-├── README.md       # This file
-└── DEPLOY.md       # GitHub Pages deployment steps
+index.html            → page structure (edit rarely)
+css/style.css          → all styling / design tokens (edit to re-theme)
+js/data.js              → ALL YOUR CONTENT — edit this file to update the site
+js/script.js            → rendering logic (edit rarely)
+assets/resume/          → put your resume.pdf here
+assets/img/              → put your profile photo here (profile.jpg)
 ```
 
----
+## 1. Add your content
 
-## Local Preview
+Open **`js/data.js`**. It's a single file with clearly labeled sections
+for your name, title, resume link, social links, skills, experience,
+GitHub username, and LinkedIn posts. Every field has a comment
+explaining what it does. This is the only file you need to edit for
+day-to-day updates.
 
-Just open `index.html` in any browser — no server required.
+## 2. Add your resume
 
-```bash
-open index.html        # macOS
-start index.html       # Windows
-xdg-open index.html    # Linux
+Drop your PDF into `assets/resume/` and name it `resume.pdf` (replacing
+the placeholder text file there). The "Download Résumé" button already
+points to that path — no other change needed. To update your resume
+later, just replace that file.
+
+If you'd rather link to a resume hosted elsewhere (Google Drive,
+Dropbox, etc.), paste that URL into `resumeUrl` in `data.js` instead.
+
+## 3. Add your photo
+
+Replace `assets/img/profile.jpg` with your own photo, keeping the same
+filename. A square image works best.
+
+## 4. Projects & Skills (both driven by GitHub)
+
+By default the site pulls your **public repositories live** from the
+GitHub API — just set your username in `data.js`:
+
+```js
+github: {
+  username: "your-username",
+  useLiveGitHub: true,
+  repoCount: 6,
+  sortBy: "updated"
+}
 ```
 
----
+This single fetch powers two sections:
 
-## Deploy to GitHub Pages
+- **Projects** — your most recently updated repos, shown as cards.
+- **Skills** — auto-generated, not hand-typed. The site counts each
+  repo's primary language and any **topics** you've tagged on GitHub
+  (repo page → gear icon next to "About" → Topics), then ranks them
+  by frequency. Add topics like `machine-learning` or `flutter` to
+  your repos on GitHub and they'll show up here automatically next
+  time the page loads.
 
-See [`DEPLOY.md`](./DEPLOY.md) for the exact steps. Short version:
+No manual maintenance needed for either section. If you'd rather
+hand-pick projects instead, set `useLiveGitHub: false` and fill in
+the `manualProjects` and `skillGroups` lists, which are used as the
+fallback whenever live GitHub data is turned off or unavailable.
 
-```bash
-cd "Portfolio Website"
-git init
-git add .
-git commit -m "Initial portfolio"
-git branch -M main
-git remote add origin https://github.com/itsmittalharshit/itsmittalharshit.github.io.git
-git push -u origin main
-```
+## 5. LinkedIn posts
 
-Site goes live at `https://itsmittalharshit.github.io` within ~60 seconds.
+LinkedIn has no public API for pulling posts automatically, so this
+section is manually curated (takes ~2 minutes per post):
 
-To update after changes:
+1. Open the post on LinkedIn.
+2. Click **•••** → **Embed this post**.
+3. Copy the `src="..."` URL from the snippet LinkedIn gives you.
+4. Paste it into `embedSrc` for that post in `data.js`.
 
-```bash
-git add .
-git commit -m "Update"
-git push
-```
+If you skip this, the site shows a plain text summary card instead
+(using `fallbackText`), so nothing looks broken either way.
 
----
+## 6. Adding a YouTube video later
 
-## Contact
+Everything's ready to go, just switched off:
 
-- **Email:** mittalharshit99@gmail.com
-- **LinkedIn:** [linkedin.com/in/theharshitmittal](https://linkedin.com/in/theharshitmittal)
-- **GitHub:** [github.com/itsmittalharshit](https://github.com/itsmittalharshit)
-- **ORCID:** [0000-0002-4960-4660](https://orcid.org/0000-0002-4960-4660)
+1. In `js/data.js`, set `youtube.enabled = true` and paste your
+   `youtube.videoId` (the part after `v=` in a YouTube URL).
+2. In `index.html`, uncomment the `<section id="video">` block
+   (search for `YOUTUBE SECTION`).
+3. In `index.html`, uncomment the "Video" nav tab (search for
+   `YouTube tab`).
+
+The embed logic in `js/script.js` (search for `YOUTUBE EMBED LOGIC`)
+is already written and needs no changes.
+
+## 7. Publish on GitHub Pages
+
+1. Create a new GitHub repository (e.g. `your-username.github.io` for
+   a root domain, or any name for a project site).
+2. Push this folder's contents to the repo:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial portfolio site"
+   git branch -M main
+   git remote add origin https://github.com/your-username/your-repo.git
+   git push -u origin main
+   ```
+3. In the repo on GitHub: **Settings → Pages → Source** → select the
+   `main` branch and `/ (root)` folder → **Save**.
+4. Your site will be live at:
+   - `https://your-username.github.io/` (if the repo is named
+     `your-username.github.io`), or
+   - `https://your-username.github.io/your-repo/` (any other repo name)
+
+GitHub Pages usually takes 1–2 minutes to go live after the first push.
+
+## Notes
+
+- No build tools, no `npm install` — just static files.
+- Works fully offline except for two things that need internet: Google
+  Fonts and the live GitHub repo fetch (both fail gracefully if
+  unavailable).
+- Everything is responsive down to mobile and respects
+  `prefers-reduced-motion`.

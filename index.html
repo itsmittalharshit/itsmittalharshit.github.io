@@ -1,1274 +1,184 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Harshit Mittal — AI Researcher & Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    /* ─────────────────────────────────────────
-       THEME TOKENS
-    ───────────────────────────────────────── */
-    :root {
-      --bg:          #f7f6f3;
-      --bg2:         #efede8;
-      --surface:     #ffffff;
-      --surface2:    #f3f2ee;
-      --border:      #e4e1d9;
-      --text:        #16130f;
-      --text2:       #6b6660;
-      --accent:      #6366f1;
-      --accent2:     #8b5cf6;
-      --accent3:     #06b6d4;
-      --accent-glow: rgba(99,102,241,.18);
-      --accent-light:#eef2ff;
-      --green:       #10b981;
-      --gold:        #f59e0b;
-      --nav-h:       70px;
-      --radius:      16px;
-      --radius-sm:   10px;
-      --shadow:      0 2px 16px rgba(0,0,0,.06);
-      --shadow-lg:   0 12px 48px rgba(0,0,0,.10);
-      --shadow-xl:   0 24px 80px rgba(0,0,0,.14);
-      --transition:  .35s cubic-bezier(.4,0,.2,1);
-    }
-    [data-theme="dark"] {
-      --bg:          #0b0b12;
-      --bg2:         #111118;
-      --surface:     #16161f;
-      --surface2:    #1e1e2a;
-      --border:      #2a2a38;
-      --text:        #e8e6f0;
-      --text2:       #7c7a90;
-      --accent-glow: rgba(99,102,241,.28);
-      --accent-light:#1e1e3a;
-      --shadow:      0 2px 16px rgba(0,0,0,.3);
-      --shadow-lg:   0 12px 48px rgba(0,0,0,.4);
-      --shadow-xl:   0 24px 80px rgba(0,0,0,.5);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Portfolio</title>
+<meta name="description" content="Personal portfolio, resume, and project showcase.">
 
-    /* ─────────────────────────────────────────
-       RESET & BASE
-    ───────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 16px; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      overflow-x: hidden;
-      transition: background var(--transition), color var(--transition);
-    }
-    ::selection { background: rgba(99,102,241,.2); }
-    a { color: inherit; text-decoration: none; }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+<!-- Google Fonts: Fraunces (display), IBM Plex Sans (body), IBM Plex Mono (labels) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    /* ─────────────────────────────────────────
-       THEME RIPPLE OVERLAY
-    ───────────────────────────────────────── */
-    #theme-ripple {
-      position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999;
-      transform: scale(0); background: var(--bg);
-      transition: none;
-    }
-    #theme-ripple.expanding {
-      transition: transform 0.7s cubic-bezier(.4,0,.2,1), opacity 0.7s;
-    }
-
-    /* ─────────────────────────────────────────
-       PROGRESS BAR
-    ───────────────────────────────────────── */
-    #progress-bar {
-      position: fixed; top: 0; left: 0; height: 2.5px; z-index: 200;
-      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
-      width: 0%; transition: width .1s linear;
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    /* ─────────────────────────────────────────
-       NAV
-    ───────────────────────────────────────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: var(--nav-h);
-      background: rgba(247,246,243,.75);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid var(--border);
-      transition: background var(--transition), border-color var(--transition), box-shadow .3s;
-    }
-    [data-theme="dark"] nav { background: rgba(11,11,18,.75); }
-    nav.scrolled { box-shadow: var(--shadow); }
-    .nav-inner {
-      max-width: 1240px; width: 100%; margin: auto;
-      height: 100%; display: flex; align-items: center; justify-content: space-between;
-      padding: 0 clamp(1.25rem, 4vw, 3rem);
-    }
-    .nav-logo {
-      font-weight: 800; font-size: 1.15rem; letter-spacing: -.03em;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .nav-links { display: flex; align-items: center; gap: 1.75rem; list-style: none; }
-    .nav-links a {
-      font-size: .82rem; font-weight: 500; color: var(--text2);
-      transition: color .2s; letter-spacing: .01em;
-    }
-    .nav-links a:hover { color: var(--accent); }
-    .nav-right { display: flex; align-items: center; gap: .75rem; }
-    .nav-resume {
-      background: var(--accent); color: #fff;
-      padding: .4rem 1rem; border-radius: 8px; font-size: .78rem; font-weight: 600;
-      transition: opacity .2s, transform .15s; display: flex; align-items: center; gap: .4rem;
-    }
-    .nav-resume:hover { opacity: .88; transform: translateY(-1px); }
-
-    /* ─────────────────────────────────────────
-       DARK MODE TOGGLE — ORBITAL ORB
-    ───────────────────────────────────────── */
-    #theme-toggle {
-      position: relative; width: 42px; height: 42px; border-radius: 50%;
-      border: none; cursor: pointer; outline: none;
-      background: var(--surface2); border: 1.5px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      transition: background var(--transition), border-color var(--transition), box-shadow .3s;
-      overflow: visible;
-    }
-    #theme-toggle:hover {
-      box-shadow: 0 0 0 6px var(--accent-glow);
-      border-color: var(--accent);
-    }
-    .toggle-icon {
-      width: 18px; height: 18px; position: relative; transition: transform .5s cubic-bezier(.34,1.56,.64,1);
-    }
-    #theme-toggle:hover .toggle-icon { transform: rotate(20deg) scale(1.1); }
-
-    /* Sun rays */
-    .ray {
-      position: absolute; background: var(--gold); border-radius: 2px;
-      transition: opacity .4s, transform .4s;
-    }
-    [data-theme="dark"] .ray { opacity: 0; transform: scale(0); }
-    .sun-core {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--gold); position: absolute;
-      top: 50%; left: 50%; transform: translate(-50%,-50%);
-      transition: background .4s, width .4s, height .4s;
-    }
-    [data-theme="dark"] .sun-core {
-      background: #e0e8ff; width: 12px; height: 12px;
-      box-shadow: -3px -1px 0 0 var(--bg2);
-    }
-
-    /* Orbit dot for dark mode */
-    .orbit-ring {
-      position: absolute; inset: -6px; border-radius: 50%;
-      border: 1.5px dashed var(--border);
-      opacity: 0; transition: opacity .4s;
-      animation: orbit-spin 4s linear infinite;
-    }
-    [data-theme="dark"] .orbit-ring { opacity: 1; }
-    .orbit-dot {
-      position: absolute; width: 5px; height: 5px; border-radius: 50%;
-      background: var(--accent2); top: -2.5px; left: 50%; margin-left: -2.5px;
-    }
-    @keyframes orbit-spin { to { transform: rotate(360deg); } }
-
-    /* Stars burst on toggle */
-    .star-particle {
-      position: absolute; width: 4px; height: 4px; border-radius: 50%;
-      background: var(--accent2); pointer-events: none;
-      opacity: 0;
-    }
-
-    /* Hamburger */
-    .nav-hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
-    .nav-hamburger span { display: block; width: 20px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
-
-    /* ─────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────── */
-    #hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      padding: calc(var(--nav-h) + 5rem) clamp(1.25rem, 4vw, 3rem) 6rem;
-      position: relative; overflow: hidden;
-    }
-    .hero-mesh {
-      position: absolute; inset: 0; z-index: 0;
-      background:
-        radial-gradient(ellipse 80% 70% at 75% 10%, rgba(99,102,241,.12) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 50% at 5% 85%, rgba(139,92,246,.1) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(6,182,212,.06) 0%, transparent 60%);
-    }
-    .hero-grid-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
-      opacity: .4;
-    }
-    .hero-inner {
-      max-width: 1240px; width: 100%; margin: auto; position: relative; z-index: 1;
-      display: grid; grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: center;
-    }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: .6rem;
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: 99px; padding: .35rem 1rem .35rem .5rem;
-      font-size: .75rem; font-weight: 600; letter-spacing: .02em;
-      color: var(--text2); margin-bottom: 1.75rem;
-      box-shadow: var(--shadow);
-    }
-    .eyebrow-dot {
-      width: 24px; height: 24px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: .7rem; font-weight: 700;
-    }
-    .status-pulse {
-      width: 8px; height: 8px; border-radius: 50%; background: var(--green);
-      animation: status-pulse 2.5s infinite;
-    }
-    @keyframes status-pulse {
-      0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)}
-      50%{box-shadow:0 0 0 5px rgba(16,185,129,0)}
-    }
-    .hero-title {
-      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
-      font-weight: 800; line-height: 1.05; letter-spacing: -.04em;
-      margin-bottom: 1.5rem;
-    }
-    .title-gradient {
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-sub {
-      font-size: 1.05rem; color: var(--text2); line-height: 1.8;
-      max-width: 500px; margin-bottom: 2.5rem; font-weight: 400;
-    }
-    .hero-ctas { display: flex; gap: .875rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-    .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .75rem 1.5rem; border-radius: var(--radius-sm);
-      font-weight: 600; font-size: .875rem; transition: all .2s;
-      white-space: nowrap;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff; box-shadow: 0 4px 20px rgba(99,102,241,.35);
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(99,102,241,.45); }
-    .btn-ghost {
-      background: var(--surface); color: var(--text);
-      border: 1.5px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
-    .hero-socials { display: flex; gap: .75rem; }
-    .social-pill {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .4rem .9rem; border-radius: 99px;
-      background: var(--surface); border: 1.5px solid var(--border);
-      font-size: .75rem; font-weight: 600; color: var(--text2);
-      transition: all .2s;
-    }
-    .social-pill svg { flex-shrink: 0; }
-    .social-pill:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
-
-    /* Hero card */
-    .hero-card-wrap { position: relative; }
-    .hero-card-glow {
-      position: absolute; inset: -30px;
-      background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
-      border-radius: 50%; z-index: 0;
-    }
-    .hero-card {
-      position: relative; z-index: 1;
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: 24px; padding: 2rem;
-      box-shadow: var(--shadow-xl);
-      animation: float 7s ease-in-out infinite;
-    }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-    .card-header { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.5rem; }
-    .card-avatar {
-      width: 44px; height: 44px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 800; font-size: .95rem; letter-spacing: -.02em;
-    }
-    .card-title { font-weight: 700; font-size: .95rem; }
-    .card-sub { font-size: .75rem; color: var(--text2); }
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: 1.25rem; }
-    .stat-box {
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 12px; padding: .875rem; text-align: center;
-      transition: background var(--transition), border-color var(--transition);
-    }
-    .stat-box:hover { border-color: var(--accent); }
-    .stat-val { font-size: 1.6rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
-    .stat-val.ind { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .stat-val.cyn { color: var(--accent3); }
-    .stat-val.grn { color: var(--green); }
-    .stat-lbl { font-size: .66rem; color: var(--text2); margin-top: .25rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
-    .thesis-pill {
-      background: linear-gradient(135deg, rgba(99,102,241,.08), rgba(139,92,246,.08));
-      border: 1px solid rgba(99,102,241,.2);
-      border-radius: 12px; padding: .875rem 1rem;
-      font-size: .78rem; line-height: 1.6; color: var(--text2);
-    }
-    .thesis-pill strong { color: var(--text); display: block; margin-bottom: .3rem; font-weight: 700; }
-
-    /* ─────────────────────────────────────────
-       SECTION BASE
-    ───────────────────────────────────────── */
-    section { padding: 7rem clamp(1.25rem, 4vw, 3rem); }
-    .section-inner { max-width: 1240px; margin: auto; }
-    .section-eyebrow {
-      display: inline-flex; align-items: center; gap: .5rem;
-      font-size: .7rem; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: .6rem;
-    }
-    .section-eyebrow::before {
-      content: ''; width: 18px; height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      border-radius: 2px; display: block;
-    }
-    .section-title {
-      font-size: clamp(1.9rem, 3.5vw, 2.75rem);
-      font-weight: 800; letter-spacing: -.03em; line-height: 1.15;
-    }
-    .section-title .grad {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-
-    /* ─────────────────────────────────────────
-       SCROLL ANIMATIONS
-    ───────────────────────────────────────── */
-    .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity .65s cubic-bezier(.4,0,.2,1), transform .65s cubic-bezier(.4,0,.2,1);
-    }
-    .reveal.delay-1 { transition-delay: .1s; }
-    .reveal.delay-2 { transition-delay: .2s; }
-    .reveal.delay-3 { transition-delay: .3s; }
-    .reveal.delay-4 { transition-delay: .4s; }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    /* ─────────────────────────────────────────
-       ABOUT
-    ───────────────────────────────────────── */
-    #about { background: var(--surface); }
-    .about-layout { display: grid; grid-template-columns: auto 1fr; gap: 5rem; align-items: start; margin-top: 3.5rem; }
-    .about-avatar-col { width: 260px; }
-    .avatar-frame {
-      width: 200px; height: 200px; border-radius: 28px; margin: 0 auto;
-      background: linear-gradient(135deg, var(--accent-light), rgba(139,92,246,.1));
-      border: 2px solid var(--border); display: flex; align-items: center;
-      justify-content: center; font-size: 4rem; font-weight: 800;
-      letter-spacing: -.05em; position: relative; overflow: hidden;
-      color: var(--accent);
-    }
-    .avatar-frame::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, transparent 40%, rgba(99,102,241,.08));
-    }
-    .about-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
-    .badge {
-      font-size: .72rem; font-weight: 600; padding: .3rem .75rem;
-      border-radius: 99px; background: var(--surface2);
-      border: 1px solid var(--border); color: var(--text2);
-      transition: all .2s;
-    }
-    .badge:hover { border-color: var(--accent); color: var(--accent); }
-    .about-links-col { display: flex; flex-direction: column; gap: .5rem; margin-top: 1.25rem; }
-    .about-text p { color: var(--text2); line-height: 1.85; margin-bottom: .9rem; font-size: .95rem; }
-    .about-text strong { color: var(--text); font-weight: 600; }
-    .about-action-links { display: flex; flex-wrap: wrap; gap: .625rem; margin-top: 1.75rem; }
-    .action-link {
-      display: inline-flex; align-items: center; gap: .4rem;
-      font-size: .78rem; font-weight: 600; padding: .45rem 1rem;
-      border-radius: 8px; background: var(--accent-light);
-      color: var(--accent); border: 1px solid rgba(99,102,241,.2);
-      transition: all .2s;
-    }
-    .action-link:hover { background: rgba(99,102,241,.15); transform: translateY(-1px); }
-
-    /* ─────────────────────────────────────────
-       EDUCATION
-    ───────────────────────────────────────── */
-    #education { background: var(--bg); }
-    .edu-card {
-      margin-top: 3.5rem;
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: 20px; overflow: hidden;
-      box-shadow: var(--shadow); transition: box-shadow .3s, transform .3s;
-    }
-    .edu-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
-    .edu-banner {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      padding: 1.5rem 2rem; display: flex; align-items: center;
-      justify-content: space-between; gap: 1rem;
-    }
-    .edu-banner-left { color: #fff; }
-    .edu-degree-name { font-size: 1.05rem; font-weight: 700; margin-bottom: .25rem; }
-    .edu-school-name { font-size: .85rem; opacity: .85; font-weight: 500; }
-    .edu-banner-right {
-      text-align: right; color: rgba(255,255,255,.8);
-      font-size: .78rem; font-weight: 600; white-space: nowrap;
-    }
-    .edu-grade {
-      display: inline-block; background: rgba(255,255,255,.2);
-      border-radius: 99px; padding: .2rem .75rem;
-      font-size: .72rem; margin-top: .3rem; color: #fff;
-    }
-    .edu-body-wrap { padding: 2rem; }
-    .edu-coursework { color: var(--text2); font-size: .875rem; line-height: 1.8; margin-bottom: 1.25rem; }
-    .thesis-block {
-      background: linear-gradient(135deg, rgba(99,102,241,.06), rgba(139,92,246,.06));
-      border: 1px solid rgba(99,102,241,.18); border-left: 3px solid var(--accent2);
-      border-radius: 12px; padding: 1.25rem 1.5rem;
-    }
-    .thesis-tag { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent2); margin-bottom: .5rem; }
-    .thesis-text { color: var(--text2); font-size: .82rem; line-height: 1.75; }
-    .thesis-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .875rem; }
-    .t-chip {
-      font-size: .72rem; font-weight: 600; padding: .25rem .75rem;
-      border-radius: 7px; background: var(--surface);
-      border: 1px solid var(--border); color: var(--accent);
-    }
-
-    /* ─────────────────────────────────────────
-       EXPERIENCE
-    ───────────────────────────────────────── */
-    #experience { background: var(--surface); }
-    .exp-list { margin-top: 3.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
-    .exp-card {
-      background: var(--bg); border: 1.5px solid var(--border);
-      border-radius: 20px; padding: 2rem;
-      display: grid; grid-template-columns: 3.5rem 1fr; gap: 1.5rem;
-      transition: box-shadow .3s, transform .3s, border-color .3s;
-    }
-    .exp-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: rgba(99,102,241,.3); }
-    .exp-logo {
-      width: 3.5rem; height: 3.5rem; border-radius: 14px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: .75rem; color: #fff; letter-spacing: -.01em;
-      line-height: 1.2; text-align: center;
-    }
-    .logo-usict { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
-    .logo-drdo  { background: linear-gradient(135deg, #059669, #0891b2); }
-    .exp-role-name { font-weight: 700; font-size: 1rem; margin-bottom: .15rem; }
-    .exp-org-name { color: var(--accent); font-weight: 600; font-size: .85rem; }
-    .exp-meta { color: var(--text2); font-size: .75rem; margin-top: .2rem; }
-    .exp-points { margin-top: 1rem; padding-left: 1rem; }
-    .exp-points li { color: var(--text2); font-size: .85rem; line-height: 1.8; margin-bottom: .4rem; }
-    .exp-points li::marker { color: var(--accent); }
-    .exp-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
-    .etag {
-      font-size: .68rem; font-weight: 600; padding: .2rem .65rem;
-      border-radius: 6px; background: var(--accent-light);
-      color: var(--accent); border: 1px solid rgba(99,102,241,.18);
-    }
-
-    /* ─────────────────────────────────────────
-       PROJECTS
-    ───────────────────────────────────────── */
-    #projects { background: var(--bg); }
-    .projects-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 3.5rem; flex-wrap: wrap; }
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; }
-    .proj-card {
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: 20px; padding: 2rem;
-      display: flex; flex-direction: column;
-      transition: box-shadow .3s, transform .3s, border-color .3s;
-      position: relative; overflow: hidden;
-    }
-    .proj-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
-      opacity: 0; transition: opacity .3s;
-    }
-    .proj-card:hover { box-shadow: var(--shadow-xl); transform: translateY(-6px); border-color: rgba(99,102,241,.25); }
-    .proj-card:hover::before { opacity: 1; }
-    .proj-card-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
-    .proj-icon-wrap {
-      width: 48px; height: 48px; border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent-light), rgba(139,92,246,.1));
-      border: 1px solid rgba(99,102,241,.2);
-      display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-    }
-    .proj-feat-badge {
-      display: inline-flex; align-items: center; gap: .3rem;
-      font-size: .65rem; font-weight: 700; padding: .25rem .65rem;
-      border-radius: 99px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-    }
-    .proj-name { font-weight: 700; font-size: 1.05rem; margin-bottom: .5rem; }
-    .proj-desc { color: var(--text2); font-size: .825rem; line-height: 1.75; flex: 1; }
-    .proj-stack { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.1rem 0; }
-    .lang-tag {
-      display: inline-flex; align-items: center; gap: .35rem;
-      font-size: .7rem; font-weight: 600; padding: .22rem .65rem;
-      border-radius: 6px; background: var(--surface2); border: 1px solid var(--border);
-      color: var(--text2);
-    }
-    .lang-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-    .proj-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--border); margin-top: auto; }
-    .proj-gh-link {
-      display: inline-flex; align-items: center; gap: .4rem;
-      font-size: .78rem; font-weight: 700; color: var(--accent);
-      transition: gap .2s;
-    }
-    .proj-gh-link:hover { gap: .65rem; }
-
-    /* ─────────────────────────────────────────
-       RESEARCH
-    ───────────────────────────────────────── */
-    #research { background: var(--surface); }
-    .research-layout { display: grid; grid-template-columns: 1fr 340px; gap: 2rem; margin-top: 3.5rem; align-items: start; }
-    .research-main-card {
-      background: linear-gradient(135deg, rgba(99,102,241,.06) 0%, rgba(139,92,246,.06) 100%);
-      border: 1.5px solid rgba(99,102,241,.2); border-radius: 20px; padding: 2.5rem;
-      box-shadow: var(--shadow);
-    }
-    .r-badge {
-      display: inline-flex; align-items: center; gap: .4rem;
-      background: var(--surface); border: 1px solid rgba(99,102,241,.2);
-      color: var(--accent2); font-size: .7rem; font-weight: 700;
-      letter-spacing: .06em; text-transform: uppercase;
-      padding: .3rem .8rem; border-radius: 99px; margin-bottom: 1.25rem;
-    }
-    .r-title { font-size: 1.2rem; font-weight: 700; line-height: 1.45; margin-bottom: 1rem; }
-    .r-title em { font-style: normal; color: var(--accent2); }
-    .r-abstract { color: var(--text2); font-size: .875rem; line-height: 1.85; margin-bottom: 1.75rem; }
-    .r-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: .875rem; margin-bottom: 1.5rem; }
-    .rm {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: .875rem; text-align: center;
-    }
-    .rm-v { font-size: 1.35rem; font-weight: 800; letter-spacing: -.03em; color: var(--accent2); }
-    .rm-l { font-size: .65rem; color: var(--text2); margin-top: .2rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
-    .r-chips { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .r-chip {
-      font-size: .73rem; font-weight: 600; padding: .28rem .8rem;
-      border-radius: 8px; background: var(--surface); border: 1px solid rgba(99,102,241,.2);
-      color: var(--accent2);
-    }
-    .research-side { display: flex; flex-direction: column; gap: 1.25rem; }
-    .orcid-card {
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: 20px; padding: 1.75rem;
-    }
-    .orcid-header { display: flex; align-items: center; gap: .875rem; margin-bottom: 1rem; }
-    .orcid-badge {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: #a6ce39; display: flex; align-items: center;
-      justify-content: center; color: #fff; font-weight: 800; font-size: .85rem;
-    }
-    .orcid-meta strong { display: block; font-size: .9rem; font-weight: 700; }
-    .orcid-meta span { font-size: .72rem; color: var(--text2); }
-    .orcid-id-str {
-      font-family: 'JetBrains Mono', monospace; font-size: .8rem;
-      color: var(--text2); background: var(--surface2);
-      border: 1px solid var(--border); border-radius: 8px;
-      padding: .5rem .875rem; margin-bottom: 1rem; display: block;
-    }
-    .orcid-btn {
-      display: inline-flex; align-items: center; gap: .4rem;
-      font-size: .8rem; font-weight: 600; color: #5b8a00;
-      background: #f4fce3; border: 1px solid #bef264;
-      padding: .45rem 1rem; border-radius: 8px; transition: background .2s;
-    }
-    [data-theme="dark"] .orcid-btn { background: rgba(166,206,57,.1); border-color: rgba(166,206,57,.3); color: #a6ce39; }
-    .orcid-btn:hover { background: #ecfccb; }
-    .thesis-meta-card {
-      background: var(--bg); border: 1.5px solid var(--border);
-      border-radius: 20px; padding: 1.75rem;
-    }
-    .tm-row { margin-bottom: .875rem; }
-    .tm-lbl { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text2); margin-bottom: .2rem; }
-    .tm-val { font-size: .875rem; font-weight: 600; }
-    .kw-wrap { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .3rem; }
-    .kw { font-size: .7rem; font-weight: 600; padding: .22rem .65rem; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); color: var(--text2); }
-
-    /* ─────────────────────────────────────────
-       SKILLS
-    ───────────────────────────────────────── */
-    #skills { background: var(--bg); }
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.25rem; margin-top: 3.5rem; }
-    .skill-card {
-      background: var(--surface); border: 1.5px solid var(--border);
-      border-radius: 18px; padding: 1.75rem;
-      transition: box-shadow .3s, transform .3s;
-    }
-    .skill-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
-    .sk-head { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.25rem; }
-    .sk-icon-wrap {
-      width: 38px; height: 38px; border-radius: 10px;
-      background: var(--accent-light); border: 1px solid rgba(99,102,241,.18);
-      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
-    }
-    .sk-name { font-weight: 700; font-size: .9rem; }
-    .sk-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
-    .sk-tag {
-      font-size: .72rem; font-weight: 500; padding: .25rem .7rem;
-      border-radius: 7px; background: var(--surface2); border: 1px solid var(--border);
-      color: var(--text2); cursor: default; transition: all .2s;
-    }
-    .sk-tag:hover { background: var(--accent-light); border-color: rgba(99,102,241,.3); color: var(--accent); }
-
-    /* ─────────────────────────────────────────
-       CONTACT
-    ───────────────────────────────────────── */
-    #contact { background: var(--surface); }
-    .contact-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; margin-top: 3.5rem; align-items: start; }
-    .contact-desc { color: var(--text2); line-height: 1.85; margin-bottom: 2rem; font-size: .95rem; }
-    .c-item {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1rem 1.125rem; border-radius: 14px;
-      background: var(--bg); border: 1.5px solid var(--border);
-      margin-bottom: .75rem; transition: border-color .2s, box-shadow .2s;
-    }
-    .c-item:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-    .c-icon {
-      width: 38px; height: 38px; border-radius: 10px;
-      background: var(--accent-light); border: 1px solid rgba(99,102,241,.18);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--accent); flex-shrink: 0;
-    }
-    .c-lbl { font-size: .68rem; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
-    .c-val { font-size: .875rem; font-weight: 600; }
-    .contact-form-wrap {
-      background: var(--bg); border: 1.5px solid var(--border);
-      border-radius: 20px; padding: 2rem;
-    }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .fg { margin-bottom: 1.1rem; }
-    .fg label { display: block; font-size: .75rem; font-weight: 600; color: var(--text2); margin-bottom: .4rem; letter-spacing: .02em; }
-    .fg input, .fg textarea, .fg select {
-      width: 100%; padding: .75rem 1rem; border-radius: 10px;
-      border: 1.5px solid var(--border); background: var(--surface);
-      font-family: inherit; font-size: .875rem; color: var(--text);
-      outline: none; transition: border-color .2s, box-shadow .2s, background var(--transition);
-      resize: vertical;
-    }
-    .fg input:focus, .fg textarea:focus, .fg select:focus {
-      border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
-    }
-    .fg textarea { min-height: 110px; }
-    .form-btn {
-      width: 100%; padding: .875rem; border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff; border: none; font-family: inherit; font-size: .875rem;
-      font-weight: 700; cursor: pointer; letter-spacing: .01em;
-      transition: opacity .2s, transform .15s, box-shadow .2s;
-      box-shadow: 0 4px 20px rgba(99,102,241,.35);
-      display: flex; align-items: center; justify-content: center; gap: .5rem;
-    }
-    .form-btn:hover { opacity: .9; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(99,102,241,.45); }
-    .form-note { font-size: .72rem; color: var(--text2); text-align: center; margin-top: .75rem; line-height: 1.5; }
-    .form-status { margin-top: .875rem; padding: .75rem 1rem; border-radius: 10px; font-size: .8rem; font-weight: 600; display: none; }
-    .form-status.ok { background: rgba(16,185,129,.08); border: 1px solid rgba(16,185,129,.25); color: var(--green); display: block; }
-
-    /* ─────────────────────────────────────────
-       FOOTER
-    ───────────────────────────────────────── */
-    footer {
-      background: var(--bg2); border-top: 1px solid var(--border);
-      padding: 2.5rem clamp(1.25rem, 4vw, 3rem);
-    }
-    .footer-inner { max-width: 1240px; margin: auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-    .footer-links a { font-size: .78rem; color: var(--text2); font-weight: 500; transition: color .2s; }
-    .footer-links a:hover { color: var(--accent); }
-    .footer-copy { font-size: .75rem; color: var(--text2); }
-
-    /* ─────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────── */
-    @media (max-width: 960px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero-card-wrap { display: none; }
-      .about-layout { grid-template-columns: 1fr; gap: 2rem; }
-      .about-avatar-col { width: 100%; display: flex; flex-direction: column; align-items: center; }
-      .research-layout { grid-template-columns: 1fr; }
-      .r-metrics { grid-template-columns: 1fr 1fr; }
-      .contact-layout { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; }
-      .nav-links.open {
-        display: flex; flex-direction: column; align-items: flex-start;
-        position: fixed; top: var(--nav-h); left: 0; right: 0;
-        background: var(--surface); padding: 1.5rem;
-        border-bottom: 1px solid var(--border);
-        box-shadow: var(--shadow-lg); gap: 1.25rem; z-index: 99;
-      }
-      .projects-grid { grid-template-columns: 1fr; }
-      .r-metrics { grid-template-columns: 1fr 1fr; }
-      .footer-inner { flex-direction: column; text-align: center; }
-    }
-  </style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<div id="progress-bar"></div>
-<div id="theme-ripple"></div>
-
-<!-- ═══════════ NAV ═══════════ -->
-<nav id="navbar">
-  <div class="nav-inner">
-    <a href="#hero" class="nav-logo">HM.</a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="nav-right">
-      <!-- SPECIAL THEME TOGGLE -->
-      <button id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme(event)">
-        <div class="toggle-icon" id="toggleIcon">
-          <!-- Orbit ring (dark mode) -->
-          <div class="orbit-ring"><div class="orbit-dot"></div></div>
-          <!-- Core (sun/moon) -->
-          <div class="sun-core" id="sunCore"></div>
-          <!-- Sun rays (light mode) -->
-          <div class="ray" id="r0" style="width:2px;height:5px;top:-1px;left:50%;margin-left:-1px;transform-origin:50% 100%"></div>
-          <div class="ray" id="r1" style="width:2px;height:5px;top:50%;right:-1px;margin-top:-1px;transform-origin:0 50%"></div>
-          <div class="ray" id="r2" style="width:2px;height:5px;bottom:-1px;left:50%;margin-left:-1px;transform-origin:50% 0"></div>
-          <div class="ray" id="r3" style="width:2px;height:5px;top:50%;left:-1px;margin-top:-1px;transform-origin:100% 50%"></div>
-          <div class="ray" id="r4" style="width:2px;height:4px;top:1px;right:1px;transform:rotate(45deg);transform-origin:50% 100%"></div>
-          <div class="ray" id="r5" style="width:2px;height:4px;bottom:1px;right:1px;transform:rotate(-45deg);transform-origin:50% 0"></div>
-          <div class="ray" id="r6" style="width:2px;height:4px;bottom:1px;left:1px;transform:rotate(45deg);transform-origin:50% 0"></div>
-          <div class="ray" id="r7" style="width:2px;height:4px;top:1px;left:1px;transform:rotate(-45deg);transform-origin:50% 100%"></div>
-        </div>
-      </button>
-      <a href="HMResume.pdf" download class="nav-resume">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Resume
-      </a>
-      <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
+<!-- =========================================================
+     FOLDER-TAB NAVIGATION
+     ========================================================= -->
+<nav class="tabnav" aria-label="Section navigation">
+  <div class="tabnav-inner">
+    <span class="tabnav-brand">FILE //</span>
+    <a class="tab active" href="#about">About</a>
+    <a class="tab" href="#skills">Skills</a>
+    <a class="tab" href="#experience">Experience</a>
+    <a class="tab" href="#projects">Projects</a>
+    <a class="tab" href="#posts">Posts</a>
+    <!-- YouTube tab: uncomment this line once you enable the Featured Video section below -->
+    <!-- <a class="tab" href="#video">Video</a> -->
+    <a class="tab" href="#contact">Contact</a>
   </div>
 </nav>
 
-<!-- ═══════════ HERO ═══════════ -->
-<section id="hero">
-  <div class="hero-mesh"></div>
-  <div class="hero-grid-bg"></div>
-  <div class="hero-inner">
+<!-- =========================================================
+     HERO — ID badge
+     ========================================================= -->
+<section class="hero" id="top">
+  <div class="badge">
+    <img class="badge-photo" id="badgePhoto" src="assets/img/profile.jpg" alt="Profile photo" onerror="this.style.display='none'">
     <div>
-      <div class="hero-eyebrow">
-        <span class="eyebrow-dot">HM</span>
-        <span class="status-pulse"></span>
-        Open to opportunities · Leeds, UK
-      </div>
-      <h1 class="hero-title">
-        Hi, I'm<br>
-        <span class="title-gradient">Harshit Mittal</span>
-      </h1>
-      <p class="hero-sub">
-        AI researcher & software engineer specialising in medical image segmentation, on-device ML, and full-stack development. MSc at University of Leeds.
-      </p>
-      <div class="hero-ctas">
-        <a href="#projects" class="btn btn-primary">
-          <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          View Projects
-        </a>
-        <a href="#contact" class="btn btn-ghost">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Get in Touch
-        </a>
-      </div>
-      <div class="hero-socials">
-        <a href="https://linkedin.com/in/theharshitmittal" target="_blank" class="social-pill">
-          <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://github.com/itsmittalharshit" target="_blank" class="social-pill">
-          <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          GitHub
-        </a>
-        <a href="https://orcid.org/0000-0002-4960-4660" target="_blank" class="social-pill">
-          <svg width="13" height="13" fill="#a6ce39" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11"/><text x="6" y="16" font-size="9" font-weight="bold" fill="white" font-family="Arial">iD</text></svg>
-          ORCID
-        </a>
+      <h1 class="badge-name" id="badgeName">Name</h1>
+      <p class="badge-title" id="badgeTitle">Title</p>
+      <div class="badge-meta">
+        <span id="badgeRef"></span>
+        <span id="badgeLocation"></span>
       </div>
     </div>
-    <div class="hero-card-wrap reveal delay-2">
-      <div class="hero-card-glow"></div>
-      <div class="hero-card">
-        <div class="card-header">
-          <div class="card-avatar">HM</div>
-          <div>
-            <div class="card-title">SAPNeXt · MSc Thesis</div>
-            <div class="card-sub">University of Leeds · 2026</div>
-          </div>
-        </div>
-        <div class="stat-grid">
-          <div class="stat-box"><div class="stat-val ind">0.837</div><div class="stat-lbl">Mean Dice</div></div>
-          <div class="stat-box"><div class="stat-val ind">0.630</div><div class="stat-lbl">AJI Score</div></div>
-          <div class="stat-box"><div class="stat-val cyn">1.6s</div><div class="stat-lbl">Per Slide</div></div>
-          <div class="stat-box"><div class="stat-val grn">19</div><div class="stat-lbl">Tissue Types</div></div>
-        </div>
-        <div class="thesis-pill">
-          <strong>🧬 Nuclei Segmentation · PanNuke Benchmark</strong>
-          Beats CellViT, HoVerNeXt & SwinUNet using Spatial Adaptive Fusion + PixelShuffle upsampling over ConvNeXt backbone.
-        </div>
-      </div>
-    </div>
+    <span class="stamp" id="badgeStatus">Status</span>
   </div>
+
+  <p class="hero-tagline" id="heroTagline">Tagline goes here.</p>
+
+  <div class="hero-actions">
+    <a class="btn btn-primary" id="resumeBtn" href="#" target="_blank" rel="noopener">Download Résumé</a>
+    <a class="btn btn-secondary" href="#contact">Get in Touch</a>
+  </div>
+
+  <div class="social-row" id="socialRow"></div>
 </section>
 
-<!-- ═══════════ ABOUT ═══════════ -->
+<!-- =========================================================
+     ABOUT
+     ========================================================= -->
 <section id="about">
-  <div class="section-inner">
-    <div class="section-eyebrow">About</div>
-    <h2 class="section-title">Researcher. Engineer. <span class="grad">Builder.</span></h2>
-    <div class="about-layout">
-      <div class="about-avatar-col reveal">
-        <div class="avatar-frame">HM</div>
-        <div class="about-badges">
-          <span class="badge">🎓 MSc Leeds</span>
-          <span class="badge">🧬 Medical AI</span>
-          <span class="badge">📱 Flutter</span>
-          <span class="badge">🔬 Research</span>
-          <span class="badge">🇬🇧 Leeds, UK</span>
-        </div>
-        <div class="about-action-links" style="margin-top:1.25rem;flex-direction:column;gap:.5rem">
-          <a href="https://linkedin.com/in/theharshitmittal" target="_blank" class="action-link">
-            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-            LinkedIn
-          </a>
-          <a href="https://github.com/itsmittalharshit" target="_blank" class="action-link">
-            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            GitHub
-          </a>
-          <a href="HMResume.pdf" download class="action-link">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download Resume
-          </a>
-        </div>
-      </div>
-      <div class="about-text reveal delay-1">
-        <p>I'm a Master's student in Advanced Computer Science at the <strong>University of Leeds</strong>, graduating with a First Class in September 2026. My work sits at the intersection of deep learning, medical image analysis, and practical software engineering.</p>
-        <p>My thesis focuses on <strong>SAPNeXt</strong> — a novel hierarchical encoder-decoder for nuclei instance segmentation in histopathology images, achieving state-of-the-art results across 19 tissue types on the PanNuke pan-cancer benchmark.</p>
-        <p>Beyond research, I build <strong>offline-first mobile apps</strong> with Flutter — tools designed to work reliably without internet connectivity. I've interned as an AI researcher at USIC&T and as a project trainee at CFEES, DRDO, contributing to peer-reviewed work in Springer and IEEE frameworks.</p>
-      </div>
+  <div class="section-head">
+    <p class="eyebrow">01 — Personnel File</p>
+    <h2>About</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        Replace this paragraph in <code>index.html</code>, or better — edit the
+        <code>fullName</code> / <code>tagline</code> fields in <code>js/data.js</code> and
+        write two or three short paragraphs here about your background, what you
+        do, and what you're looking for.
+      </p>
+      <p>
+        Keep it concrete: what you've built, what problems you like solving, and
+        what a hiring manager should remember about you after 20 seconds.
+      </p>
+    </div>
+    <div class="about-text">
+      <p>
+        This is a good place for a second angle — your working style, a notable
+        achievement, or what makes you different from other candidates with a
+        similar title.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ EDUCATION ═══════════ -->
-<section id="education">
-  <div class="section-inner">
-    <div class="section-eyebrow">Education</div>
-    <h2 class="section-title">Academic <span class="grad">Background</span></h2>
-    <div class="edu-card reveal">
-      <div class="edu-banner">
-        <div class="edu-banner-left">
-          <div class="edu-degree-name">Master of Science in Advanced Computer Science</div>
-          <div class="edu-school-name">University of Leeds · Leeds, United Kingdom</div>
-        </div>
-        <div class="edu-banner-right">
-          Expected Sep 2026
-          <div class="edu-grade">First Class</div>
-        </div>
-      </div>
-      <div class="edu-body-wrap">
-        <p class="edu-coursework"><strong>Relevant Coursework:</strong> Algorithms (C++), Machine Learning (Python), Deep Learning (Python), Data Mining & Text Analysis (Python), Data Science (Python)</p>
-        <div class="thesis-block">
-          <div class="thesis-tag">MSc Thesis</div>
-          <p class="thesis-text">The design and implementation of <strong>SAPNeXt</strong>, a novel hierarchical encoder-decoder architecture integrating Spatial Adaptive Fusion and PixelShuffle upsampling over a pretrained ConvNeXt backbone, achieving a mean Dice of 0.8373 and AJI of 0.6307 on the MoNuSeg test set while reducing inference time to 1.6 seconds per slide — outperforming CellViT, HoVerNeXt, and SwinUNet across 19 tissue types on the PanNuke pan-cancer benchmark.</p>
-          <div class="thesis-chips">
-            <span class="t-chip">Dice: 0.8373</span>
-            <span class="t-chip">AJI: 0.6307</span>
-            <span class="t-chip">1.6s / slide</span>
-            <span class="t-chip">19 tissue types</span>
-            <span class="t-chip">MoNuSeg</span>
-            <span class="t-chip">PanNuke</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ EXPERIENCE ═══════════ -->
-<section id="experience">
-  <div class="section-inner">
-    <div class="section-eyebrow">Experience</div>
-    <h2 class="section-title">Work <span class="grad">History</span></h2>
-    <div class="exp-list">
-
-      <div class="exp-card reveal">
-        <div class="exp-logo logo-usict">USIC<br>&amp;T</div>
-        <div>
-          <div class="exp-role-name">AI Research Intern</div>
-          <div class="exp-org-name">USIC&T</div>
-          <div class="exp-meta">📍 Delhi, India &nbsp;·&nbsp; Jan 2025 – May 2025</div>
-          <ul class="exp-points">
-            <li>Pioneered novel medical AI activation and class-balancing techniques, slashing information loss to <strong>7%</strong> and boosting accuracy by up to <strong>10%</strong> across peer-reviewed frameworks (Springer/IEEE).</li>
-            <li>Architected containerised ML pipelines using Docker and Git, standardising cross-team reproducibility and streamlining version-controlled feature deployments.</li>
-          </ul>
-          <div class="exp-tags">
-            <span class="etag">Medical AI</span><span class="etag">Python</span>
-            <span class="etag">Docker</span><span class="etag">Springer/IEEE</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="exp-card reveal delay-1">
-        <div class="exp-logo logo-drdo">CFEES<br>DRDO</div>
-        <div>
-          <div class="exp-role-name">Project Trainee</div>
-          <div class="exp-org-name">CFEES, DRDO</div>
-          <div class="exp-meta">📍 Delhi, India &nbsp;·&nbsp; Aug 2023 – Oct 2023</div>
-          <ul class="exp-points">
-            <li>Engineered and deployed a peer-reviewed <strong>3D facial recognition pipeline</strong> that upgraded CCTV footage to point-clouds, directly improving the department's active production security posture.</li>
-            <li>Optimised cross-platform Flutter application performance to boost end-user satisfaction, establishing rigid code standards through meticulous Git history and documentation tracking.</li>
-          </ul>
-          <div class="exp-tags">
-            <span class="etag">3D Vision</span><span class="etag">Flutter</span>
-            <span class="etag">Computer Vision</span><span class="etag">DRDO</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ PROJECTS ═══════════ -->
-<section id="projects">
-  <div class="section-inner">
-    <div class="projects-top">
-      <div>
-        <div class="section-eyebrow">Projects</div>
-        <h2 class="section-title">What I've <span class="grad">Built</span></h2>
-      </div>
-      <a href="https://github.com/itsmittalharshit" target="_blank" class="btn btn-ghost" style="font-size:.8rem;padding:.55rem 1.1rem">
-        All on GitHub →
-      </a>
-    </div>
-    <div class="projects-grid">
-
-      <!-- AdaptAttend -->
-      <div class="proj-card reveal">
-        <div class="proj-card-head">
-          <div class="proj-icon-wrap">📱</div>
-          <span class="proj-feat-badge">⭐ Featured</span>
-        </div>
-        <div class="proj-name">AdaptAttend</div>
-        <p class="proj-desc">Fully offline Flutter attendance app supporting 3 methods — 6-digit TOTP, GPS geo-fence, and manager-side face scan — with zero backend dependency. On-device 1-to-N face recognition via MobileFaceNet TFLite (128-d embeddings, cosine similarity).</p>
-        <div class="proj-stack">
-          <span class="lang-tag"><span class="lang-dot" style="background:#00B4AB"></span>Dart</span>
-          <span class="lang-tag">Flutter</span>
-          <span class="lang-tag">TFLite</span>
-          <span class="lang-tag">ML Kit</span>
-          <span class="lang-tag">Next.js</span>
-        </div>
-        <div class="proj-footer">
-          <span style="font-size:.72rem;color:var(--text2)">Offline-first · No backend</span>
-          <a href="https://github.com/itsmittalharshit" target="_blank" class="proj-gh-link">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            View →
-          </a>
-        </div>
-      </div>
-
-      <!-- ShopHandBook -->
-      <div class="proj-card reveal delay-1">
-        <div class="proj-card-head">
-          <div class="proj-icon-wrap">🛒</div>
-          <span class="proj-feat-badge">⭐ Featured</span>
-        </div>
-        <div class="proj-name">ShopHandBook</div>
-        <p class="proj-desc">Fully offline Android shop management app with 5 integrated modules — document scanner, PDF billing, inventory manager, customer tracker, and analytics — eliminating the need for internet connectivity or third-party cloud services.</p>
-        <div class="proj-stack">
-          <span class="lang-tag"><span class="lang-dot" style="background:#00B4AB"></span>Dart</span>
-          <span class="lang-tag">Flutter</span>
-          <span class="lang-tag">SQLite</span>
-          <span class="lang-tag">fl_chart</span>
-          <span class="lang-tag">Provider</span>
-        </div>
-        <div class="proj-footer">
-          <span style="font-size:.72rem;color:var(--text2)">5 modules · Zero cloud</span>
-          <a href="https://github.com/itsmittalharshit" target="_blank" class="proj-gh-link">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            View →
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ RESEARCH ═══════════ -->
-<section id="research">
-  <div class="section-inner">
-    <div class="section-eyebrow">Research</div>
-    <h2 class="section-title">Academic <span class="grad">Work</span></h2>
-    <div class="research-layout">
-      <div class="research-main-card reveal">
-        <div class="r-badge">📄 MSc Thesis · 2026</div>
-        <div class="r-title">The Design and Implementation of <em>SAPNeXt</em>: A Novel Hierarchical Encoder-Decoder for Nuclei Instance Segmentation</div>
-        <p class="r-abstract">SAPNeXt integrates <strong>Spatial Adaptive Fusion</strong> and <strong>PixelShuffle upsampling</strong> over a pretrained ConvNeXt backbone into a hierarchical encoder-decoder pipeline. Trained and evaluated on the MoNuSeg test set and PanNuke pan-cancer benchmark, it outperforms CellViT, HoVerNeXt, and SwinUNet across 19 tissue types while cutting inference time to just 1.6 seconds per whole-slide image.</p>
-        <div class="r-metrics">
-          <div class="rm"><div class="rm-v">0.837</div><div class="rm-l">Mean Dice</div></div>
-          <div class="rm"><div class="rm-v">0.630</div><div class="rm-l">AJI</div></div>
-          <div class="rm"><div class="rm-v">1.6s</div><div class="rm-l">Per Slide</div></div>
-          <div class="rm"><div class="rm-v">19</div><div class="rm-l">Tissue Types</div></div>
-        </div>
-        <div class="r-chips">
-          <span class="r-chip">✅ Beats CellViT</span>
-          <span class="r-chip">✅ Beats HoVerNeXt</span>
-          <span class="r-chip">✅ Beats SwinUNet</span>
-          <span class="r-chip">MoNuSeg</span>
-          <span class="r-chip">PanNuke</span>
-          <span class="r-chip">ConvNeXt</span>
-        </div>
-      </div>
-
-      <div class="research-side">
-        <div class="orcid-card reveal delay-1">
-          <div class="orcid-header">
-            <div class="orcid-badge">iD</div>
-            <div class="orcid-meta">
-              <strong>ORCID Profile</strong>
-              <span>Open Researcher & Contributor ID</span>
-            </div>
-          </div>
-          <code class="orcid-id-str">0000-0002-4960-4660</code>
-          <p style="color:var(--text2);font-size:.8rem;line-height:1.6;margin-bottom:1rem">Links thesis, publications, and all academic contributions to a persistent digital identifier.</p>
-          <a href="https://orcid.org/0000-0002-4960-4660" target="_blank" class="orcid-btn">Visit ORCID →</a>
-        </div>
-        <div class="thesis-meta-card reveal delay-2">
-          <div class="tm-row"><div class="tm-lbl">Institution</div><div class="tm-val">University of Leeds</div></div>
-          <div class="tm-row"><div class="tm-lbl">Program</div><div class="tm-val">MSc Advanced Computer Science</div></div>
-          <div class="tm-row"><div class="tm-lbl">Expected</div><div class="tm-val">September 2026 · First Class</div></div>
-          <div class="tm-row">
-            <div class="tm-lbl">Keywords</div>
-            <div class="kw-wrap">
-              <span class="kw">Nuclei Segmentation</span><span class="kw">ConvNeXt</span>
-              <span class="kw">Medical Imaging</span><span class="kw">Deep Learning</span>
-              <span class="kw">Histopathology</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ SKILLS ═══════════ -->
+<!-- =========================================================
+     SKILLS
+     ========================================================= -->
 <section id="skills">
-  <div class="section-inner">
-    <div class="section-eyebrow">Skills</div>
-    <h2 class="section-title">Technical <span class="grad">Toolkit</span></h2>
-    <div class="skills-grid">
-      <div class="skill-card reveal"><div class="sk-head"><div class="sk-icon-wrap">💻</div><div class="sk-name">Languages</div></div><div class="sk-tags"><span class="sk-tag">Python</span><span class="sk-tag">Dart</span><span class="sk-tag">TypeScript</span><span class="sk-tag">C++</span><span class="sk-tag">Rust</span><span class="sk-tag">Kotlin</span><span class="sk-tag">Swift</span><span class="sk-tag">Go</span><span class="sk-tag">Scala</span><span class="sk-tag">R</span><span class="sk-tag">Julia</span></div></div>
-      <div class="skill-card reveal delay-1"><div class="sk-head"><div class="sk-icon-wrap">🧠</div><div class="sk-name">AI / ML</div></div><div class="sk-tags"><span class="sk-tag">TensorFlow</span><span class="sk-tag">PyTorch</span><span class="sk-tag">TFLite</span><span class="sk-tag">ML Kit</span><span class="sk-tag">scikit-learn</span><span class="sk-tag">OpenCV</span><span class="sk-tag">ConvNeXt</span><span class="sk-tag">Transformers</span></div></div>
-      <div class="skill-card reveal delay-2"><div class="sk-head"><div class="sk-icon-wrap">📱</div><div class="sk-name">Mobile & Frontend</div></div><div class="sk-tags"><span class="sk-tag">Flutter</span><span class="sk-tag">React.js</span><span class="sk-tag">Next.js</span><span class="sk-tag">Angular</span><span class="sk-tag">Vue.js</span><span class="sk-tag">Android SDK</span><span class="sk-tag">iOS SDK</span></div></div>
-      <div class="skill-card reveal delay-3"><div class="sk-head"><div class="sk-icon-wrap">⚙️</div><div class="sk-name">Backend & DevOps</div></div><div class="sk-tags"><span class="sk-tag">Django</span><span class="sk-tag">Flask</span><span class="sk-tag">Node.js</span><span class="sk-tag">Spring Boot</span><span class="sk-tag">Docker</span><span class="sk-tag">Git</span><span class="sk-tag">Express.js</span></div></div>
-      <div class="skill-card reveal"><div class="sk-head"><div class="sk-icon-wrap">🗄️</div><div class="sk-name">Data & Databases</div></div><div class="sk-tags"><span class="sk-tag">SQLite</span><span class="sk-tag">PostgreSQL</span><span class="sk-tag">Drift ORM</span><span class="sk-tag">Data Mining</span><span class="sk-tag">Database Normalization</span></div></div>
-      <div class="skill-card reveal delay-1"><div class="sk-head"><div class="sk-icon-wrap">🔬</div><div class="sk-name">Concepts</div></div><div class="sk-tags"><span class="sk-tag">Neural Networks</span><span class="sk-tag">Computer Vision</span><span class="sk-tag">Agile</span><span class="sk-tag">Cloud Computing</span><span class="sk-tag">API Design</span><span class="sk-tag">Encryption</span></div></div>
-    </div>
+  <div class="section-head">
+    <p class="eyebrow">02 — Inventory</p>
+    <h2>Skills</h2>
   </div>
+  <div class="skill-groups" id="skillGroups"><!-- filled by script.js --></div>
 </section>
 
-<!-- ═══════════ CONTACT ═══════════ -->
+<!-- =========================================================
+     EXPERIENCE
+     ========================================================= -->
+<section id="experience">
+  <div class="section-head">
+    <p class="eyebrow">03 — Record</p>
+    <h2>Experience &amp; Education</h2>
+  </div>
+  <div class="timeline" id="timeline"><!-- filled by script.js --></div>
+</section>
+
+<!-- =========================================================
+     PROJECTS (live from GitHub API, or manual list from data.js)
+     ========================================================= -->
+<section id="projects">
+  <div class="section-head">
+    <p class="eyebrow">04 — Exhibits</p>
+    <h2>Projects</h2>
+    <p class="projects-status" id="projectsStatus"></p>
+  </div>
+  <div class="project-grid" id="projectGrid"><!-- filled by script.js --></div>
+</section>
+
+<!-- =========================================================
+     LINKEDIN POSTS
+     ========================================================= -->
+<section id="posts">
+  <div class="section-head">
+    <p class="eyebrow">05 — Correspondence</p>
+    <h2>From LinkedIn</h2>
+  </div>
+  <div class="post-grid" id="postGrid"><!-- filled by script.js --></div>
+</section>
+
+<!-- =========================================================
+     YOUTUBE SECTION — commented out on purpose.
+
+     TO ADD YOUR YOUTUBE VIDEO LATER:
+       1. In js/data.js, find the "youtube" object and set:
+            enabled: true,
+            videoId: "your-video-id-here"   (the part after "v=" in the URL)
+       2. Uncomment the <section id="video"> block directly below.
+       3. Uncomment the matching nav tab near the top of this file
+          (search for "YouTube tab").
+       That's it — script.js already contains the logic to inject
+       the video iframe using the videoId from data.js; look for
+       the block labeled "YOUTUBE EMBED LOGIC" in js/script.js.
+     ========================================================= -->
+<!--
+<section id="video">
+  <div class="section-head">
+    <p class="eyebrow">06 — Reel</p>
+    <h2 id="videoTitle">Featured Video</h2>
+  </div>
+  <div class="video-wrap" id="videoWrap">
+    <!- iframe is injected here by script.js using data.youtube.videoId ->
+  </div>
+</section>
+-->
+
+<!-- =========================================================
+     CONTACT
+     ========================================================= -->
 <section id="contact">
-  <div class="section-inner">
-    <div class="section-eyebrow">Contact</div>
-    <h2 class="section-title">Let's <span class="grad">Connect</span></h2>
-    <div class="contact-layout">
-      <div class="reveal">
-        <p class="contact-desc">Whether you have a research collaboration, job opportunity, or just want to talk tech — drop a message. Fill in the form and it opens a pre-written email ready to send.</p>
-        <div class="c-item">
-          <div class="c-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-          <div><div class="c-lbl">Email</div><div class="c-val">mittalharshit99@gmail.com</div></div>
-        </div>
-        <div class="c-item">
-          <div class="c-icon"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 5.93 5.93l1.1-.58a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-          <div><div class="c-lbl">Phone (UK)</div><div class="c-val">(+44) 7899 250187</div></div>
-        </div>
-        <div class="c-item">
-          <div class="c-icon"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div>
-          <div><div class="c-lbl">LinkedIn</div><div class="c-val">linkedin.com/in/theharshitmittal</div></div>
-        </div>
-        <div class="c-item">
-          <div class="c-icon"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div>
-          <div><div class="c-lbl">GitHub</div><div class="c-val">github.com/itsmittalharshit</div></div>
-        </div>
-      </div>
-
-      <div class="contact-form-wrap reveal delay-1">
-        <form id="contactForm" onsubmit="handleSubmit(event)">
-          <div class="form-row">
-            <div class="fg"><label>Full Name *</label><input type="text" id="from_name" placeholder="Jane Smith" required /></div>
-            <div class="fg"><label>Email Address *</label><input type="email" id="from_email" placeholder="jane@example.com" required /></div>
-          </div>
-          <div class="fg">
-            <label>Subject *</label>
-            <select id="subject" required>
-              <option value="">Select a topic…</option>
-              <option>Research Collaboration</option>
-              <option>Job / Internship Opportunity</option>
-              <option>Project Inquiry</option>
-              <option>Academic Question</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="fg"><label>Message *</label><textarea id="message" placeholder="Tell me what's on your mind…" required></textarea></div>
-          <button type="submit" class="form-btn">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            Open Pre-filled Email
-          </button>
-          <p class="form-note">Opens your mail app with everything pre-filled — just hit Send.</p>
-          <div class="form-status" id="formStatus"></div>
-        </form>
-      </div>
+  <div class="contact-card">
+    <div>
+      <h2>Let's talk</h2>
+      <p id="contactEmail"></p>
     </div>
+    <a class="btn btn-primary" id="emailBtn" href="#">Email Me</a>
   </div>
 </section>
 
-<!-- ═══════════ FOOTER ═══════════ -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-links">
-      <a href="#about">About</a>
-      <a href="#education">Education</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#research">Research</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-      <a href="https://orcid.org/0000-0002-4960-4660" target="_blank">ORCID</a>
-      <a href="HMResume.pdf" download>Resume ↓</a>
-    </div>
-    <p class="footer-copy">© 2026 Harshit Mittal · Leeds, UK</p>
-  </div>
+<footer id="footerNote">
+  <!-- filled by script.js -->
 </footer>
 
-<script>
-/* ═══ THEME TOGGLE — orbital ripple ═══ */
-function toggleTheme(e) {
-  const html    = document.documentElement;
-  const isDark  = html.getAttribute('data-theme') === 'dark';
-  const ripple  = document.getElementById('theme-ripple');
-  const btn     = document.getElementById('theme-toggle');
-  const rect    = btn.getBoundingClientRect();
-  const cx      = rect.left + rect.width  / 2;
-  const cy      = rect.top  + rect.height / 2;
-  const maxR    = Math.hypot(Math.max(cx, window.innerWidth - cx), Math.max(cy, window.innerHeight - cy)) * 2;
-
-  // Position & size ripple
-  ripple.style.cssText = `
-    width:${maxR}px; height:${maxR}px;
-    top:${cy - maxR/2}px; left:${cx - maxR/2}px;
-    transform:scale(0); opacity:1;
-    background:${isDark ? '#f7f6f3' : '#0b0b12'};
-    position:fixed; border-radius:50%; pointer-events:none; z-index:9999;
-  `;
-
-  requestAnimationFrame(() => {
-    ripple.classList.add('expanding');
-    ripple.style.transform = 'scale(1)';
-
-    setTimeout(() => {
-      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      localStorage.setItem('theme', isDark ? 'light' : 'dark');
-      ripple.style.opacity = '0';
-      setTimeout(() => {
-        ripple.classList.remove('expanding');
-        ripple.style.transform = 'scale(0)';
-      }, 400);
-    }, 350);
-  });
-
-  // Burst star particles
-  for (let i = 0; i < 8; i++) {
-    const p = document.createElement('div');
-    p.className = 'star-particle';
-    const angle  = (i / 8) * 360;
-    const dist   = 28 + Math.random() * 14;
-    const tx     = Math.cos(angle * Math.PI/180) * dist;
-    const ty     = Math.sin(angle * Math.PI/180) * dist;
-    p.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;width:4px;height:4px;border-radius:50%;
-      background:${isDark ? '#f59e0b' : '#8b5cf6'};pointer-events:none;z-index:10000;transform:translate(-50%,-50%)`;
-    document.body.appendChild(p);
-    p.animate([
-      { transform:`translate(-50%,-50%) translate(0,0)`, opacity:1 },
-      { transform:`translate(calc(-50% + ${tx}px),calc(-50% + ${ty}px))`, opacity:0 }
-    ], { duration:600, easing:'cubic-bezier(.4,0,.2,1)', fill:'forwards' });
-    setTimeout(() => p.remove(), 650);
-  }
-}
-
-// Persist theme across visits
-(function(){
-  const saved = localStorage.getItem('theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
-  else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
-    document.documentElement.setAttribute('data-theme', 'dark');
-})();
-
-/* ═══ SCROLL — progress + nav shadow + reveal ═══ */
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-window.addEventListener('scroll', () => {
-  const d   = document.documentElement;
-  const pct = d.scrollTop / (d.scrollHeight - d.clientHeight) * 100;
-  document.getElementById('progress-bar').style.width = pct + '%';
-  document.getElementById('navbar').classList.toggle('scrolled', d.scrollTop > 10);
-}, { passive: true });
-
-/* ═══ CONTACT — mailto ═══ */
-function handleSubmit(e) {
-  e.preventDefault();
-  const name    = document.getElementById('from_name').value.trim();
-  const email   = document.getElementById('from_email').value.trim();
-  const subject = document.getElementById('subject').value;
-  const message = document.getElementById('message').value.trim();
-  const body    = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
-  window.location.href =
-    `mailto:mittalharshit99@gmail.com?subject=${encodeURIComponent('[Portfolio] ' + subject)}&body=${encodeURIComponent(body)}`;
-  const s = document.getElementById('formStatus');
-  s.textContent = '✅ Mail app opened — your message is pre-filled. Just hit Send!';
-  s.className = 'form-status ok';
-}
-
-/* ═══ MOBILE MENU ═══ */
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('open');
-}
-document.querySelectorAll('.nav-links a').forEach(a =>
-  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'))
-);
-</script>
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
