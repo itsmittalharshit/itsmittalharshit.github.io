@@ -19,7 +19,7 @@ const DATA = {
   ],
 
   // Optional. Leave as "" to hide the résumé button.
-  resumeUrl: "HMResumeGo.pdf",
+  resumeUrl: "https://drive.google.com/file/d/1oVmCtJYRjoev5QMoQdNslqrf6WHG-3nO/view?usp=sharing",
 
   /* ---------- 2. LINKS (icons are matched by the "icon" key) ---------- */
   // Available icon keys: linkedin, github, youtube, email, hackerrank, orcid, researchgate
@@ -27,7 +27,7 @@ const DATA = {
     { label: "LinkedIn",     handle: "in/theharshitmittal",     url: "https://www.linkedin.com/in/theharshitmittal/",        icon: "linkedin" },
     { label: "GitHub",       handle: "itsmittalharshit",        url: "https://github.com/itsmittalharshit",                  icon: "github" },
     { label: "Email",        handle: "mittalharshit99@gmail.com", url: "mailto:mittalharshit99@gmail.com",                   icon: "email" },
-    { label: "YouTube",      handle: "@hmbugs",                 url: "https://www.youtube.com/@hmbugs",                      icon: "youtube" },
+    // { label: "YouTube",      handle: "@hmbugs",                 url: "https://www.youtube.com/@hmbugs",                      icon: "youtube" },
     { label: "ORCID",        handle: "0000-0002-4960-4660",     url: "https://orcid.org/0000-0002-4960-4660",                icon: "orcid" },
     { label: "ResearchGate", handle: "Harshit-Mittal-10",       url: "https://www.researchgate.net/profile/Harshit-Mittal-10", icon: "researchgate" },
     { label: "HackerRank",   handle: "mittalharshit99",         url: "https://www.hackerrank.com/profile/mittalharshit99",   icon: "hackerrank" }
@@ -58,6 +58,16 @@ const DATA = {
 
   /* ---------- 4. EXPERIENCE (from your CV — edit here when it changes) ---------- */
   experience: [
+     {
+      org: "SatEx Systems",
+      title: "AI Engineering and Consulting Intern",
+      place: "United Kingdom",
+      dates: "August 2026 — October 2026",
+      points: [
+        "Authored a research brief evaluating various propagation strategies and specified a fidelity-agnostic propagator interface, enabling quick analytical previews to run concurrently with high-fidelity numerical refinement without coupling downstream modules.",
+        "Designed a layered AI/ML optimization pipeline to reduce expensive high-fidelity evaluations with a C4-model software architecture (Context, Container, Component, Code) guaranteeing UI responsiveness during background computation."
+      ]
+    },
     {
       org: "USIC&T",
       title: "AI Research Intern",
