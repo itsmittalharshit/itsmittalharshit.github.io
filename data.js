@@ -19,7 +19,7 @@ const DATA = {
   ],
 
   // Optional. Leave as "" to hide the résumé button.
-  resumeUrl: "https://drive.google.com/file/d/1oVmCtJYRjoev5QMoQdNslqrf6WHG-3nO/view?usp=sharing",
+  resumeUrl: "https://drive.google.com/file/d/10E94L2G3QIk-BHTVrFJJ4ARkvAWzO_j5/view?usp=sharing",
 
   /* ---------- 2. LINKS (icons are matched by the "icon" key) ---------- */
   // Available icon keys: linkedin, github, youtube, email, hackerrank, orcid, researchgate
